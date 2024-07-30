@@ -1,9 +1,6 @@
 #include <png.h>
 #include <string.h>
 
-#include <png.h>
-#include <string.h>
-
 void embed_message(png_bytep *row_pointers, int width, int height, const char *message, int *map, long size) {
     int msg_len = strlen(message) + 1;
     int bit_count = 0;
