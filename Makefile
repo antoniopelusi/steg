@@ -42,7 +42,7 @@ test: install
 	$(NAME) -w $(TEST_PATH)$(TEST_INPUT_IMAGE) $(TEST_PWD) $(TEST_PATH)$(TEST_INPUT_TXT)
 	$(NAME) -r $(TEST_OUTPUT_IMAGE) $(TEST_PWD)
 
-install: compile
+install: setup compile
 	echo "$(CYAN)|>$(RESET) install\n"
 	sudo cp $(BIN_PATH)$(NAME) $(INSTALL_PATH)
 

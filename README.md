@@ -4,6 +4,12 @@ Embed and extract text in an image with a password
 
 &nbsp;
 
+## Install:
+
+	make install
+
+&nbsp;
+
 ## Usage:
 **Write**:
 
