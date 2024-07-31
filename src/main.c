@@ -30,10 +30,11 @@ int main(int argc, char *argv[])
 	char *output_image = "output.png";
 	char *output_text = "output.txt";
 	
-	seed = strtol(argv[3], NULL, 10);
 	
 	if ((argc == 5) && !strcmp(argv[1], "-w") && check_validity(argv[3]))
 	{
+		seed = strtol(argv[3], NULL, 10);
+
 		flag = argv[1];
 		input_image = argv[2];
 		input_text = argv[4];
@@ -74,6 +75,8 @@ int main(int argc, char *argv[])
 	}
 	else if ((argc == 4) && !strcmp(argv[1], "-r") && check_validity(argv[3]))
 	{
+		seed = strtol(argv[3], NULL, 10);
+
 		flag = argv[1];
 		input_image = argv[2];
 
