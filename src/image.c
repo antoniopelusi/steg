@@ -117,4 +117,3 @@ void read_png(const char *filename, png_structp *png_ptr, png_infop *info_ptr, p
     }
     fclose(fp);
 }
-

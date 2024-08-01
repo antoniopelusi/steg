@@ -6,6 +6,7 @@
 #include "image.h"
 #include "random.h"
 #include "steganography.h"
+#include "hash.h"
 
 #define BOLD_ON "\e[1m"
 #define BOLD_OFF "\e[m"
@@ -16,6 +17,8 @@
 #define COLOR_BLUE "\033[0;34m"
 #define COLOR_MAGENTA "\033[0;35m"
 #define COLOR_CYAN "\033[0;36m"
+
+#define SEED_LEN 8
 
 int main(int argc, char *argv[])
 {
@@ -31,12 +34,11 @@ int main(int argc, char *argv[])
 	char *output_text = "output.txt";
 	
 	
-	if ((argc == 5) && !strcmp(argv[1], "-w") && check_validity(argv[3]))
+	if ((argc == 5) && !strcmp(argv[1], "-w"))
 	{
-		seed = strtol(argv[3], NULL, 10);
-
 		flag = argv[1];
 		input_image = argv[2];
+		seed = sha1_to_digits(argv[3]);
 		input_text = argv[4];
 
 	    png_structp png_ptr;
@@ -44,19 +46,29 @@ int main(int argc, char *argv[])
 	    png_bytep *row_pointers = NULL;
 	    int width, height;
 
+		srand(seed);
+
 	    read_png(input_image, &png_ptr, &info_ptr, &row_pointers, &width, &height);
 
-		size = ((width * height) * 4);
+		size = ((width * height) * 3);
 		
 		map = (int*) malloc(size * sizeof(int));
 		
 		init_array(map, size);
 
-	    shuffle(map, size, &seed);
+	    shuffle(map, size, seed);
 
 		text = read_text(input_text, text);
+		
+		char *encrypted_message = (char *)malloc(size * sizeof(char));
 
-		embed_message(row_pointers, width, height, text, map, size);
+    	unsigned char *key = (unsigned char *)malloc(size * sizeof(unsigned char));
+
+     	generate_key(key, strlen(text));
+
+		stream_cipher(text, encrypted_message, key, strlen(text));
+
+		embed_message(row_pointers, width, height, encrypted_message, map, size);
 
 		write_png(output_image, png_ptr, info_ptr, row_pointers, width, height);
 
@@ -71,35 +83,44 @@ int main(int argc, char *argv[])
 		}
 		hidden_pwd[strlen(argv[3])] = '\0';
 		
-		print_success(flag, input_image, input_text, output_image, output_text, hidden_pwd);
+		print_success(flag, input_image, input_text, output_image, output_text);
 	}
-	else if ((argc == 4) && !strcmp(argv[1], "-r") && check_validity(argv[3]))
+	else if ((argc == 4) && !strcmp(argv[1], "-r"))
 	{
-		seed = strtol(argv[3], NULL, 10);
-
 		flag = argv[1];
 		input_image = argv[2];
+		seed = sha1_to_digits(argv[3]);
 
 	    png_structp png_ptr;
 	    png_infop info_ptr;
 	    png_bytep *row_pointers = NULL;
 	    int width, height;
 
+		srand(seed);
+
 	    read_png(input_image, &png_ptr, &info_ptr, &row_pointers, &width, &height);
-	
-		size = ((width * height) * 4);
+
+		size = ((width * height) * 3);
 		
 		map = (int*) malloc(size * sizeof(int));
 
 		init_array(map, size);
 
-	    shuffle(map, size, &seed);
+	    shuffle(map, size, seed);
 		
 	    char *extracted_message = (char *)malloc(size * sizeof(char));
-	
+
 	    extract_message(row_pointers, width, height, extracted_message, size, map, size);
-		
-		write_text(output_text, extracted_message);
+
+	    char *decrypted_message = (char *)malloc(size * sizeof(char));
+
+		unsigned char *key = (unsigned char *)malloc(size * sizeof(unsigned char));
+
+     	generate_key(key, strlen(extracted_message));
+
+		stream_cipher(extracted_message, decrypted_message, key, strlen(extracted_message));
+
+		write_text(output_text, decrypted_message);
 		
 		free(extracted_message);
 
@@ -110,19 +131,11 @@ int main(int argc, char *argv[])
 	    free(row_pointers);
 	    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		
-		char hidden_pwd[strlen(argv[3]) + 1];
-
-		for (int i = 0; i < strlen(argv[3]); i++)
-		{
-			hidden_pwd[i] = '*';
-		}
-		hidden_pwd[strlen(argv[3])] = '\0';
-
-		print_success(flag, input_image, input_text, output_image, output_text, hidden_pwd);
+		print_success(flag, input_image, input_text, output_image, output_text);
 	}
 	else
 	{
-		print_menu(argc, argv);
+		print_menu(argv);
 		
 		exit(EXIT_FAILURE);
 	}

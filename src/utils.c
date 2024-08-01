@@ -12,7 +12,7 @@
 #define COLOR_MAGENTA "\033[0;35m"
 #define COLOR_CYAN "\033[0;36m"
 
-void print_menu(int argc, char *argv[])
+void print_menu(char **argv)
 {
 	printf("+-----------------------------------------------+\n");
     printf("| %sUsage%s\t\t\t\t\t\t|\n", BOLD_ON, BOLD_OFF);
@@ -25,8 +25,10 @@ void print_menu(int argc, char *argv[])
     printf("+-----------------------------------------------+\n\n");
 }
 
-void print_success(char* flag, char *input_image, char *input_text, char *output_image, char *output_text, char *hidden_pwd)
+void print_success(char* flag, char *input_image, char *input_text, char *output_image, char *output_text)
 {
+	char *hidden_pwd = "********";
+	
 	if (!strcmp(flag, "-w"))
 	{
 		printf("+-----------------------------------------------+\n");
@@ -69,25 +71,6 @@ void print_error(char *flag)
 	}
 
 	exit(EXIT_FAILURE);
-}
-
-int check_validity(char *pwd)
-{
-	if (!((strlen(pwd) >= 4 && strlen(pwd) <= 8) ? 1 : 0))
-	{
-		return 0;
-	}
-	
-	
-	for (int i = 0; pwd[i] != '\0'; i++)
-	{
-		if (pwd[i] < '0' || pwd[i] > '9')
-		{
-			return 0;
-		}
-	}
-	
-	return 1;
 }
 
 void init_array(int *map, int size)

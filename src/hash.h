@@ -1,0 +1,1 @@
+int sha1_to_digits(char *password);
