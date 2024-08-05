@@ -21,7 +21,6 @@ void print_menu(char **argv)
     printf("| %sRead%s:  %s %s-r%s <%simage%s> <%spassword%s>\t\t|\n", BOLD_ON, BOLD_OFF, argv[0], COLOR_YELLOW, COLOR_RESET, COLOR_GREEN, COLOR_RESET, COLOR_RED, COLOR_RESET);
     printf("+-----------------------------------------------+\n");
     printf("| %sSupported image formats%s: .%spng%s\t\t\t|\n", BOLD_ON, BOLD_OFF, COLOR_CYAN, COLOR_RESET);
-    printf("| %sPassword length%s: %s4%s-%s8%s digits\t\t\t|\n", BOLD_ON, BOLD_OFF, COLOR_CYAN, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
     printf("+-----------------------------------------------+\n\n");
 }
 

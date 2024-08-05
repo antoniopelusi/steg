@@ -32,6 +32,8 @@ void write(int argc, char **argv)
     png_infop info_ptr;
     png_bytep *row_pointers = NULL;
     int width, height;
+    
+    srand(seed);
 
     read_png(input_image, &png_ptr, &info_ptr, &row_pointers, &width, &height);
 
@@ -80,6 +82,8 @@ void read(int argc, char **argv)
     png_bytep *row_pointers = NULL;
     int width, height;
 
+    srand(seed);
+    
     read_png(input_image, &png_ptr, &info_ptr, &row_pointers, &width, &height);
 
 	long size_bit = ((width * height) * 3);

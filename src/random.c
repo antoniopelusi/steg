@@ -14,8 +14,6 @@ void swap(int *a, int *b)
 
 void shuffle(int *map, int size, long seed)
 {
-	srand(seed);
-
     for (int i = size - 1; i > 0; i--)
     {
         int j = random_range(0, i);
@@ -25,8 +23,6 @@ void shuffle(int *map, int size, long seed)
 
 void generate_key(unsigned char *key, int length, long seed)
 {
-	srand(seed);
-
     for (int i = 0; i < length; i++)
     {
         key[i] = random_range(0, 255);

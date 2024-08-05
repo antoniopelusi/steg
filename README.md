@@ -1,12 +1,20 @@
 # steg
 
-Embed and extract text in an image with a password
+Embed and extract text in an image using a password.
+
+The text will be encrypted and embedded using a random path.
 
 &nbsp;
 
 ## Install:
 
 	make install
+
+&nbsp;
+
+## Test:
+
+	make test
 
 &nbsp;
 
@@ -23,8 +31,3 @@ Embed and extract text in an image with a password
 
 ## Supported image formats:
 - .png
-
-&nbsp;
-
-## Password length:
-- 4-8 digits
