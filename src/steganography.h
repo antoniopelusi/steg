@@ -1,10 +1,10 @@
-#include <png.h>
-
 #ifndef STEGANOGRAPHY_H
 #define STEGANOGRAPHY_H
 
-void embed_message(png_bytep *row_pointers, int width, int height, const char *message, int *map, long size);
+#include <png.h>
 
-void extract_message(png_bytep *row_pointers, int width, int height, char *output, int max_length, int *map, long size);
+void embed_message(png_bytep *row_pointers, int width, int height, unsigned char *message, int *map, long size, long msg_len);
+
+void extract_message(png_bytep *row_pointers, int width, int height, unsigned char *output, int *map, long size);
 
 #endif

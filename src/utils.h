@@ -9,8 +9,8 @@ void print_error(char *flag);
 
 void init_array(int *map, int size);
 
-char *read_text(char *input_text, char *text);
+void read_text(char *input_text, unsigned char *text, long array_size);
 
-void write_text(char *input_text, char *text);
+void write_text(char *input_text, unsigned char *text);
 
 #endif

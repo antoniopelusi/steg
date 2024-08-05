@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 
 unsigned int random_range(int min, int max)
 {
@@ -13,8 +12,10 @@ void swap(int *a, int *b)
     *b = temp;
 }
 
-void shuffle(int *map, int size, int seed)
-{	
+void shuffle(int *map, int size, long seed)
+{
+	srand(seed);
+
     for (int i = size - 1; i > 0; i--)
     {
         int j = random_range(0, i);
@@ -22,19 +23,12 @@ void shuffle(int *map, int size, int seed)
     }
 }
 
-void generate_key(unsigned char *key, int length)
+void generate_key(unsigned char *key, int length, long seed)
 {
+	srand(seed);
+
     for (int i = 0; i < length; i++)
     {
         key[i] = random_range(0, 255);
     }
-}
-
-void stream_cipher(char *input, char *output, unsigned char *key, int length)
-{
-    for (int i = 0; i < length; i++)
-    {
-        output[i] = input[i] ^ key[i];
-    }
-    output[length] = '\0';
 }

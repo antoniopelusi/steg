@@ -20,7 +20,7 @@ MAGENTA = \033[0;35m
 CYAN = \033[0;36m
 BOLD = \e[1m
 
-.SILENT: clear compile test uninstall install
+.SILENT: setup clear compile test uninstall install
 
 all: compile
 
@@ -33,6 +33,7 @@ clear:
 	rm -rf bin/
 	rm -f output.png
 	rm -f output.txt
+	rm -f diff.png
 
 compile: clear
 	echo "$(YELLOW)|>$(RESET) compile\n"
@@ -48,6 +49,7 @@ test: install
 	echo "| $(GREEN)[✓]$(RESET) $(BOLD)Input and Output have the same content$(RESET)\t|"; \
 	echo "+-----------------------------------------------+"; \
 	fi
+	compare test/input.png output.png -compose src diff.png; open diff.png;
 
 uninstall:
 	echo "$(CYAN)|>$(RESET) uninstall\n"

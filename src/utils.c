@@ -81,31 +81,38 @@ void init_array(int *map, int size)
     }
 }
 
-char *read_text(char *input_text, char *text)
+void read_text(char *input_text, unsigned char *text, long array_size)
 {
-	FILE *file = fopen(input_text, "rb"); 
-
-	if (file)
-	{
-		fseek(file, 0, SEEK_END);
-		long size = ftell(file);
-		rewind(file);
-		
-		text = (char*) malloc((size + 1) * sizeof(char));
-		
-		if (text)
-		{
-			fread(text, sizeof(char), size, file);
-			text[size] = '\0';
-		}
-		
-		fclose(file);
-	}
-
-	return text;
+    FILE *file = fopen(input_text, "rb");
+    
+    if (file)
+    {
+        fseek(file, 0, SEEK_END);
+        long txt_size = ftell(file);
+        rewind(file);
+        
+        if (txt_size >= (array_size - 1))
+        {
+        	print_error("-r");
+      		exit(EXIT_FAILURE);
+        }
+        else
+        {
+            fread(text, sizeof(char), txt_size, file);
+            text[txt_size] = '\0';
+        }
+        
+        fclose(file);
+    }
+    else
+    {
+	   	print_error("-r");
+  		exit(EXIT_FAILURE);
+    }
 }
 
-void write_text(char *output_text, char *text)
+
+void write_text(char *output_text, unsigned char *text)
 {
 	FILE *file = fopen(output_text, "w");
 
